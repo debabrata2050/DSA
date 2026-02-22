@@ -6,6 +6,11 @@ Constraints:
 1 <= k <= 10^18  
 0 <= a[i] <= 10 ^ 9  
 
+## HashMap Approach
+
+Time Complexity: O(n)  
+Space Complexity: O(n)
+
 ## 🧪 Dry Run
 ### Input:
 ```
@@ -102,6 +107,44 @@ public class Solution {
 
             // You can also use the below line instead of the above if condition
             // mp.putIfAbsent(sum, i);
+        }
+        
+        return maxLen;
+    }
+}
+```
+
+## Two Pointer Approach:
+
+Time Complexity: O(n)  
+Space Complexity: O(1)
+
+```java
+public class Solution {
+    public static int longestSubarrayWithSumK(int[] a, long k) {
+        int left = 0;
+        int right = 0;
+        long sum = 0;
+        int maxLen = 0;
+        int n = a.length;
+        
+        while (right < n) {
+            // Expand the window
+            sum += a[right];
+            
+            // Shrink the window from the left if sum exceeds k
+            while (left <= right && sum > k) {
+                sum -= a[left];
+                left++;
+            }
+            
+            // Check if we found the sum
+            if (sum == k) {
+                maxLen = Math.max(maxLen, right - left + 1);
+            }
+            
+            // Move pointer forward for next iteration
+            right++;
         }
         
         return maxLen;
